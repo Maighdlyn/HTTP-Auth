@@ -3,6 +3,8 @@ const app = express()
 const pgPromise = require('pg-promise')
 const pgp = pgPromise()
 const ejs = require('ejs')
+const path = require('path')
+app.use(express.static(path.join(__dirname, 'public')))
 
 app.set('view engine', 'ejs')
 
