@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "schema": "psql < database/schema.sql"
+    "schema": "psql < database/schema.sql",
+    "start": "nodemon ./index.js"
   },
   "repository": {
     "type": "git",
@@ -16,5 +17,11 @@
   "bugs": {
     "url": "https://github.com/Maighdlyn/HTTP-Auth/issues"
   },
-  "homepage": "https://github.com/Maighdlyn/HTTP-Auth#readme"
+  "homepage": "https://github.com/Maighdlyn/HTTP-Auth#readme",
+  "dependencies": {
+    "body-parser": "^1.17.2",
+    "cookie-session": "^2.0.0-beta.2",
+    "express": "^4.15.3",
+    "pg-promise": "^6.3.5"
+  }
 }
