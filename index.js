@@ -4,13 +4,23 @@ const ejs = require("ejs")
 const path = require("path")
 const bodyParser = require("body-parser")
 const queries = require("./database/queries")
+const cookieParser = require("cookie-parser")
+const session = require("express-session")
 
 
 app.use(express.static(path.join(__dirname, "public")))
 app.use(bodyParser.urlencoded({extended: false}))
 app.set("view engine", "ejs")
+app.use(cookieParser())
+app.use(session({
+  secret: "SShhhh. I\'m secret.",
+  cookie: {
+    maxAge: 5 * 60 * 1000
+  }
+}))
 
 app.get("/", function(req, res){
+  console.log("req.session:", req.session)
   res.render("main")
 })
 
@@ -28,8 +38,16 @@ app.get("/signup", function(req, res){
 })
 
 app.post("/signup", function(req, res){
-  queries.addUser(req.body.name, req.body.email, req.body.password, req.body.confirmPassword)
-
+  const user = req.body
+  if(user.password === user.confirmPassword){
+    queries.addUser(user.name, user.email, user.password)
+      .then(function(data){
+        req.session.userid = data.id
+        res.redirect('/')
+        console.log(data.id)
+        console.log("req.session:", req.session)
+      })
+  }
 })
 
 const port = 3000
